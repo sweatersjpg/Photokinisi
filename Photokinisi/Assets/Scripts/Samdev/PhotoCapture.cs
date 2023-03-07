@@ -2,30 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
 
 public class PhotoCapture : MonoBehaviour
 {
 
     [HideInInspector] public static PhotoCapture instance;
-    public static Texture2D[] photos;
+    [HideInInspector] public static Texture2D[] photos;
 
     [SerializeField]
+    Volume mainVolume;
+    [SerializeField]
+    GameObject vCamera;
+    [SerializeField]
+    GameObject viewFinder;
+
+    Volume camVolume;
     Camera mCamera;
 
-    [SerializeField]
-    int photoCount = 24;
+    [Header("Settings")]
 
-    [SerializeField]
-    Vector2 resolution;
+    [SerializeField] int photoCount = 24;
+
+    [SerializeField] Vector2 resolution;
+
+    [Header("Effects")]
+
+    [SerializeField] AnimationCurve fade;
+    [SerializeField] float fadeDuration;
+    [SerializeField] float intencity;
+
+    float fadeTimer = 0;
+    bool camviewOn = false;
 
     int photoIndex = 0;
 
     RenderTexture rt;
 
+    DepthOfField cam_dof;
+    MotionBlur cam_mb;
+    FilmGrain cam_fg;
+    ColorAdjustments cam_exp;
+
     // Start is called before the first frame update
     void Start()
     {
-        // make it a singleton :)
+        // makes it a singleton :)
         if (instance == null) instance = this;
         else
         {
@@ -45,12 +68,24 @@ public class PhotoCapture : MonoBehaviour
             photos[i] = new Texture2D((int) resolution.x, (int) resolution.y, TextureFormat.RGBA32, false);
             photos[i].filterMode = FilterMode.Point;
         }
+
+        // get post processing effect
+
+        mainVolume.profile.TryGet<ColorAdjustments>(out cam_exp);
+
+        mainVolume.profile.TryGet<DepthOfField>(out cam_dof);
+        mainVolume.profile.TryGet<MotionBlur>(out cam_mb);
+        mainVolume.profile.TryGet<FilmGrain>(out cam_fg);
+
+        fadeTimer = -fadeDuration;
     }
 
     void CapturePhoto()
     {
         Texture2D photo = photos[photoIndex];
         photoIndex = (photoIndex + 1) % photos.Length;
+        bool vactive = viewFinder.activeSelf;
+        viewFinder.SetActive(false);
 
         mCamera.targetTexture = rt;
         mCamera.Render();
@@ -61,12 +96,60 @@ public class PhotoCapture : MonoBehaviour
 
         mCamera.targetTexture = null;
         RenderTexture.active = null;
+        viewFinder.SetActive(vactive);
     }
 
     private void Update()
     {
-        // temporary!!!!
-
         if (Input.GetMouseButtonDown(0)) CapturePhoto();
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (camviewOn)
+            {
+                SetFadeTimer();
+                Invoke("DisableCamview", fadeDuration / 3);
+            }
+            else
+            {
+                Invoke("SetFadeTimer", 0.3f);
+                Invoke("EnableCamview", 0.3f + fadeDuration / 3);
+            }
+            camviewOn = !camviewOn;
+        }
+
+        float t = (Time.time - fadeTimer) / fadeDuration;
+        cam_exp.postExposure.value = Mathf.Lerp(0, intencity, fade.Evaluate(t));
+
+    }
+
+    void EnableCamview()
+    {
+        SetCamVisibility(false);
+    }
+
+    void DisableCamview()
+    {
+        SetCamVisibility(true);
+    }
+
+    void SetCamVisibility(bool onoff)
+    {
+        SkinnedMeshRenderer[] ms = vCamera.GetComponentsInChildren<SkinnedMeshRenderer>();
+        for(int i = 0; i < ms.Length; i++)
+        {
+            ms[i].enabled = onoff;
+        }
+
+        viewFinder.SetActive(!onoff);
+
+        cam_fg.active = !onoff;
+        cam_dof.active = !onoff;
+        cam_mb.active = !onoff;
+    }
+
+    void SetFadeTimer()
+    {
+        fadeTimer = Time.time;
     }
 }

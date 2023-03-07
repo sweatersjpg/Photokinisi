@@ -13,6 +13,9 @@ public class ViewModelCamera : MonoBehaviour
     Coroutine SwapingFlash;
     [SerializeField] float FlashSwapTime = 0.4f;
 
+    public bool ToggleLineUpShot;
+    bool LUS;
+
     //sway
     Vector3 CamTargetPos;
 
@@ -21,6 +24,26 @@ public class ViewModelCamera : MonoBehaviour
         PlayerInput = new Controls();
 
         PlayerInput.FPS.FlashOnOff.performed += FlashOnOff_performed;
+        PlayerInput.FPS.LineUpShot.performed += LineUpShot_performed;
+    }
+
+    private void LineUpShot_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if(!ToggleLineUpShot)
+        {
+            return;
+        }
+
+        LUS = !LUS;
+
+        if(LUS)
+        {
+            animator.SetBool("LineUpShot", (PlayerInput.FPS.LineUpShot.ReadValue<float>() > 0));
+        }
+        else
+        {
+            animator.SetBool("LineUpShot", (PlayerInput.FPS.LineUpShot.ReadValue<float>() > 1));
+        }
     }
 
     private void FlashOnOff_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -40,7 +63,10 @@ public class ViewModelCamera : MonoBehaviour
     {
         transform.localPosition = CamTargetPos;
 
-        LineUpShot();
+        if (!ToggleLineUpShot)
+        {
+            LineUpShot();
+        }
         MovementFunc();
         CameraSway();
     }

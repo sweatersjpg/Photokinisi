@@ -190,6 +190,17 @@
                     "action": "LineUpShot",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04465ae7-2ae7-434c-96fa-9f5ab53121ef",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LineUpShot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

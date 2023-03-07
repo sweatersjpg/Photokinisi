@@ -16,7 +16,8 @@ public class DispPhoto : MonoBehaviour
     // Start is called before the first frame update
     void Update()
     {
-        mRenderer.material.SetTexture("_MainTex", PhotoCapture.photos[photoIndex]);
+        //mRenderer.material.SetTexture(mRenderer.material.mainTexture, texture);
+        mRenderer.material.mainTexture = PhotoCapture.photos[photoIndex];
         enabled = false;
     }
 

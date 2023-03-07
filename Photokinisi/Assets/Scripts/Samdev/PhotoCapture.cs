@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.U2D;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
@@ -18,6 +19,8 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField]
     GameObject viewFinder;
 
+    [SerializeField] Image fadeOverlay;
+
     Volume camVolume;
     Camera mCamera;
 
@@ -31,8 +34,9 @@ public class PhotoCapture : MonoBehaviour
 
     [SerializeField] AnimationCurve fade;
     [SerializeField] float fadeDuration;
-    [SerializeField] float intencity;
+    [SerializeField] Color fadeTargetColor;
 
+    Color fadeStartingColor;
     float fadeTimer = 0;
     bool camviewOn = false;
 
@@ -72,12 +76,12 @@ public class PhotoCapture : MonoBehaviour
         // get post processing effect
 
         mainVolume.profile.TryGet<ColorAdjustments>(out cam_exp);
-
         mainVolume.profile.TryGet<DepthOfField>(out cam_dof);
         mainVolume.profile.TryGet<MotionBlur>(out cam_mb);
         mainVolume.profile.TryGet<FilmGrain>(out cam_fg);
 
         fadeTimer = -fadeDuration;
+        fadeStartingColor = fadeOverlay.color;
     }
 
     void CapturePhoto()
@@ -108,18 +112,19 @@ public class PhotoCapture : MonoBehaviour
             if (camviewOn)
             {
                 SetFadeTimer();
-                Invoke("DisableCamview", fadeDuration / 3);
+                Invoke("DisableCamview", fadeDuration / 2);
             }
             else
             {
                 Invoke("SetFadeTimer", 0.3f);
-                Invoke("EnableCamview", 0.3f + fadeDuration / 3);
+                Invoke("EnableCamview", 0.3f + fadeDuration / 2);
             }
             camviewOn = !camviewOn;
         }
 
         float t = (Time.time - fadeTimer) / fadeDuration;
-        cam_exp.postExposure.value = Mathf.Lerp(0, intencity, fade.Evaluate(t));
+        //cam_exp.postExposure.value = Mathf.Lerp(0, intencity, fade.Evaluate(t));
+        fadeOverlay.color = Color.Lerp(fadeStartingColor, fadeTargetColor, fade.Evaluate(t));
 
     }
 
@@ -141,7 +146,11 @@ public class PhotoCapture : MonoBehaviour
             ms[i].enabled = onoff;
         }
 
-        viewFinder.SetActive(!onoff);
+        MeshRenderer[] vms = viewFinder.GetComponentsInChildren<MeshRenderer>();
+        for (int i = 0; i < vms.Length; i++)
+        {
+            vms[i].enabled = !onoff;
+        }
 
         cam_fg.active = !onoff;
         cam_dof.active = !onoff;

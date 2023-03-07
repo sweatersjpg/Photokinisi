@@ -42,9 +42,12 @@ public class ViewModelCamera : MonoBehaviour
         }
         else
         {
-            animator.SetBool("LineUpShot", (PlayerInput.FPS.LineUpShot.ReadValue<float>() > 1));
+            //animator.SetBool("LineUpShot", (PlayerInput.FPS.LineUpShot.ReadValue<float>() > 1));
+            Invoke("StupidExtraFunctionToUseInAnInvokeForSettingABool", 0.2f);
         }
     }
+
+    void StupidExtraFunctionToUseInAnInvokeForSettingABool() => animator.SetBool("LineUpShot", (PlayerInput.FPS.LineUpShot.ReadValue<float>() > 1));
 
     private void FlashOnOff_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {

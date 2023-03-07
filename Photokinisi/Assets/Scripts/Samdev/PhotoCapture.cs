@@ -7,7 +7,7 @@ public class PhotoCapture : MonoBehaviour
 {
 
     [HideInInspector] public static PhotoCapture instance;
-    [HideInInspector] public static Texture2D[] photos;
+    public static Texture2D[] photos;
 
     [SerializeField]
     Camera mCamera;
@@ -52,8 +52,6 @@ public class PhotoCapture : MonoBehaviour
         Texture2D photo = photos[photoIndex];
         photoIndex = (photoIndex + 1) % photos.Length;
 
-        mCamera.GetComponent<PixelPerfectCamera>().enabled = false;
-
         mCamera.targetTexture = rt;
         mCamera.Render();
 
@@ -63,7 +61,6 @@ public class PhotoCapture : MonoBehaviour
 
         mCamera.targetTexture = null;
         RenderTexture.active = null;
-        mCamera.GetComponent<PixelPerfectCamera>().enabled = true;
     }
 
     private void Update()

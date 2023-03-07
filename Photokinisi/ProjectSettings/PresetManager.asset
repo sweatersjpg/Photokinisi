@@ -4,4 +4,21 @@
 PresetManager:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_DefaultPresets: {}
+  m_DefaultPresets:
+  - first:
+      m_NativeTypeID: 1006
+      m_ManagedTypePPtr: {fileID: 0}
+      m_ManagedTypeFallback: 
+    second:
+    - m_Preset: {fileID: 2655988077585873504, guid: 17ce0cf5c441b3b459c7885807cc24dc, type: 2}
+      m_Filter: glob:"*_AlbedoTransparency.png"
+      m_Disabled: 0
+    - m_Preset: {fileID: 2655988077585873504, guid: f571e90d5a9003546abee7e173686352, type: 2}
+      m_Filter: glob:"*_MetallicSmoothness.png"
+      m_Disabled: 0
+    - m_Preset: {fileID: 2655988077585873504, guid: 90b0023ab53c78d479c0f985a6bba23f, type: 2}
+      m_Filter: glob:"*_Normal.png"
+      m_Disabled: 0
+    - m_Preset: {fileID: 2655988077585873504, guid: 17ce0cf5c441b3b459c7885807cc24dc, type: 2}
+      m_Filter: glob:"*_Emission.png"
+      m_Disabled: 0

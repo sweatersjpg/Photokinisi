@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CameraFlash
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Camera
+    m_Weight: 0
+  - m_Path: Rig
+    m_Weight: 0
+  - m_Path: Rig/bip_Cam
+    m_Weight: 0
+  - m_Path: Rig/POL_L
+    m_Weight: 0
+  - m_Path: Rig/POL_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger00_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger00_L/Finger01_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger00_L/Finger01_L/Finger02_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger00_L/Finger01_L/Finger02_L/Finger03_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger10_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger10_L/Finger11_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger10_L/Finger11_L/Finger12_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger10_L/Finger11_L/Finger12_L/Finger13_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger20_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger20_L/Finger22_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger20_L/Finger22_L/Finger23_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger20_L/Finger22_L/Finger23_L/Finger24_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger30_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger30_L/Finger31_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger30_L/Finger31_L/Finger33_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger30_L/Finger31_L/Finger33_L/Finger34_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger40_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger40_L/Finger41_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger40_L/Finger41_L/Finger42_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_L/Forearm_01_L/Forearm_02_L/Hand_L/Finger40_L/Finger41_L/Finger42_L/Finger43_L
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger00_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger00_R/Finger01_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger00_R/Finger01_R/Finger02_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger00_R/Finger01_R/Finger02_R/Finger03_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger10_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger10_R/Finger11_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger10_R/Finger11_R/Finger12_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger10_R/Finger11_R/Finger12_R/Finger13_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger20_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger20_R/Finger22_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger20_R/Finger22_R/Finger23_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger20_R/Finger22_R/Finger23_R/Finger24_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger30_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger30_R/Finger31_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger30_R/Finger31_R/Finger33_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger30_R/Finger31_R/Finger33_R/Finger34_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger40_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger40_R/Finger41_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger40_R/Finger41_R/Finger42_R
+    m_Weight: 0
+  - m_Path: Rig/Rig_RootTransform/UpperArm_R/Forearm_01_R/Forearm_02_R/Hand_R/Finger40_R/Finger41_R/Finger42_R/Finger43_R
+    m_Weight: 0
+  - m_Path: Rig/RootTransform
+    m_Weight: 0
+  - m_Path: Rig/RootTransform/bip_Film_Advance_lever
+    m_Weight: 0
+  - m_Path: Rig/RootTransform/bip_Flash
+    m_Weight: 1
+  - m_Path: Rig/RootTransform/IK.L
+    m_Weight: 0
+  - m_Path: Rig/RootTransform/IK.R
+    m_Weight: 0

@@ -9,7 +9,7 @@ public class ViewModelCamera : MonoBehaviour
 
     [SerializeField] Animator animator;
 
-    bool HasFlash = true;
+    public static bool HasFlash = true; // security go brrr :-) (i am so lazy)
     Coroutine SwapingFlash;
     [SerializeField] float FlashSwapTime = 0.4f;
 

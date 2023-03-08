@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.U2D;
-using UnityEngine.Rendering.Universal;
+// using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 
 public class PhotoCapture : MonoBehaviour
@@ -11,13 +11,14 @@ public class PhotoCapture : MonoBehaviour
 
     [HideInInspector] public static PhotoCapture instance;
     [HideInInspector] public static Texture2D[] photos;
+    public static bool camEnabled = false;
 
     [SerializeField]
-    Volume mainVolume;
-    [SerializeField]
-    GameObject vCamera;
+    GameObject cameraModel;
     [SerializeField]
     GameObject viewFinder;
+    [SerializeField]
+    GameObject flashLight;
 
     [SerializeField] Image fadeOverlay;
 
@@ -43,11 +44,6 @@ public class PhotoCapture : MonoBehaviour
     int photoIndex = 0;
 
     RenderTexture rt;
-
-    DepthOfField cam_dof;
-    MotionBlur cam_mb;
-    FilmGrain cam_fg;
-    ColorAdjustments cam_exp;
 
     // Start is called before the first frame update
     void Start()
@@ -75,10 +71,7 @@ public class PhotoCapture : MonoBehaviour
 
         // get post processing effect
 
-        mainVolume.profile.TryGet<ColorAdjustments>(out cam_exp);
-        mainVolume.profile.TryGet<DepthOfField>(out cam_dof);
-        mainVolume.profile.TryGet<MotionBlur>(out cam_mb);
-        mainVolume.profile.TryGet<FilmGrain>(out cam_fg);
+        camVolume = GetComponent<Volume>();
 
         fadeTimer = -fadeDuration;
         fadeStartingColor = fadeOverlay.color;
@@ -86,10 +79,12 @@ public class PhotoCapture : MonoBehaviour
 
     void CapturePhoto()
     {
+        if (!camEnabled) return;
+
         Texture2D photo = photos[photoIndex];
         photoIndex = (photoIndex + 1) % photos.Length;
-        bool vactive = viewFinder.activeSelf;
         viewFinder.SetActive(false);
+        //if (ViewModelCamera.HasFlash) flashLight.SetActive(true);
 
         mCamera.targetTexture = rt;
         mCamera.Render();
@@ -100,7 +95,8 @@ public class PhotoCapture : MonoBehaviour
 
         mCamera.targetTexture = null;
         RenderTexture.active = null;
-        viewFinder.SetActive(vactive);
+        viewFinder.SetActive(true);
+        //flashLight.SetActive(false);
     }
 
     private void Update()
@@ -130,31 +126,33 @@ public class PhotoCapture : MonoBehaviour
 
     void EnableCamview()
     {
-        SetCamVisibility(false);
+        SetCamVisibility(true);
     }
 
     void DisableCamview()
     {
-        SetCamVisibility(true);
+        SetCamVisibility(false);
     }
 
-    void SetCamVisibility(bool onoff)
+    void SetCamVisibility(bool active)
     {
-        SkinnedMeshRenderer[] ms = vCamera.GetComponentsInChildren<SkinnedMeshRenderer>();
+        SkinnedMeshRenderer[] ms = cameraModel.GetComponentsInChildren<SkinnedMeshRenderer>();
         for(int i = 0; i < ms.Length; i++)
         {
-            ms[i].enabled = onoff;
+            ms[i].enabled = !active;
         }
 
-        MeshRenderer[] vms = viewFinder.GetComponentsInChildren<MeshRenderer>();
-        for (int i = 0; i < vms.Length; i++)
-        {
-            vms[i].enabled = !onoff;
-        }
+        viewFinder.SetActive(active);
+        //MeshRenderer[] vms = viewFinder.GetComponentsInChildren<MeshRenderer>();
+        //for (int i = 0; i < vms.Length; i++)
+        //{
+        //    vms[i].enabled = active;
+        //}
 
-        cam_fg.active = !onoff;
-        cam_dof.active = !onoff;
-        cam_mb.active = !onoff;
+        camVolume.enabled = active;
+        camEnabled = active;
+
+        flashLight.SetActive(active && ViewModelCamera.HasFlash);
     }
 
     void SetFadeTimer()

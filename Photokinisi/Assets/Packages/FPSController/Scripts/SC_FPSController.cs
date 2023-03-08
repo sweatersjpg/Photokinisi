@@ -44,6 +44,8 @@ public class SC_FPSController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) Cursor.visible = true;
         if (Input.GetMouseButtonDown(0)) Cursor.visible = false;
 
+        canMove = !PhotoCapture.camEnabled;
+
         CharacterMovement();
     }
 

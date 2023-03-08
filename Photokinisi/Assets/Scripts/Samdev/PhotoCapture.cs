@@ -21,6 +21,7 @@ public class PhotoCapture : MonoBehaviour
     GameObject flashLight;
 
     [SerializeField] Image fadeOverlay;
+    [SerializeField] GameObject shutter;
 
     Volume camVolume;
     Camera mCamera;
@@ -80,6 +81,9 @@ public class PhotoCapture : MonoBehaviour
     void CapturePhoto()
     {
         if (!camEnabled) return;
+
+        shutter.SetActive(true);
+        Invoke("HideShutter", 0.2f);
 
         Texture2D photo = photos[photoIndex];
         photoIndex = (photoIndex + 1) % photos.Length;
@@ -153,6 +157,11 @@ public class PhotoCapture : MonoBehaviour
         camEnabled = active;
 
         flashLight.SetActive(active && ViewModelCamera.HasFlash);
+    }
+
+    void HideShutter()
+    {
+        shutter.SetActive(false);
     }
 
     void SetFadeTimer()

@@ -60,7 +60,7 @@ public class PhotoCapture : MonoBehaviour
         if (mCamera == null) mCamera = Camera.main;
 
         rt = new RenderTexture((int)resolution.x, (int)resolution.y, 32);
-        rt.filterMode = FilterMode.Point;
+        //rt.filterMode = FilterMode.Point;
 
         photos = new Texture2D[photoCount];
 
@@ -76,6 +76,7 @@ public class PhotoCapture : MonoBehaviour
 
         fadeTimer = -fadeDuration;
         fadeStartingColor = fadeOverlay.color;
+
     }
 
     void CapturePhoto()

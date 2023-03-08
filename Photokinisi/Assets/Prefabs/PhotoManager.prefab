@@ -51,7 +51,7 @@ MonoBehaviour:
   viewFinder: {fileID: 0}
   flashLight: {fileID: 0}
   fadeOverlay: {fileID: 911932940371812025}
-  photoCount: 2
+  photoCount: 3
   resolution: {x: 3000, y: 2000}
   fade:
     serializedVersion: 2
@@ -103,7 +103,7 @@ MonoBehaviour:
   camVolume: {fileID: 911932939262172480}
   focusSensitivity: 0.1
   zoomSensitivity: 1
-  EVOffset: 10
+  EVOffset: 11
   EVSensitivity: 1
   minFocalLength: 50
   maxFocalLength: 200

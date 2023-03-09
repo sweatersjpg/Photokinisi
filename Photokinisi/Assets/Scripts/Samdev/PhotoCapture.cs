@@ -13,6 +13,13 @@ public class PhotoCapture : MonoBehaviour
     [HideInInspector] public static Texture2D[] photos;
     public static bool camEnabled = false;
 
+    [Header("Teleport")]
+
+    public GameObject player;
+    public Transform teleport;
+
+    [Header("Assets")]
+
     [SerializeField]
     GameObject cameraModel;
     [SerializeField]
@@ -87,6 +94,7 @@ public class PhotoCapture : MonoBehaviour
         Invoke("HideShutter", 0.2f);
 
         Texture2D photo = photos[photoIndex];
+
         photoIndex = (photoIndex + 1) % photos.Length;
         viewFinder.SetActive(false);
         //if (ViewModelCamera.HasFlash) flashLight.SetActive(true);
@@ -102,9 +110,17 @@ public class PhotoCapture : MonoBehaviour
         RenderTexture.active = null;
         viewFinder.SetActive(true);
         //flashLight.SetActive(false);
+
+        if(photoIndex == 0)
+        {
+            Debug.Log("hello???");
+            //player.position = new Vector3(teleport.position.x, teleport.position.y, teleport.position.z);
+
+            player.transform.position = teleport.position;
+        }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (Input.GetMouseButtonDown(0)) CapturePhoto();
 

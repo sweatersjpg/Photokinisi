@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-
 
 public class CameraSettings : MonoBehaviour
 {
@@ -13,6 +13,11 @@ public class CameraSettings : MonoBehaviour
     DepthOfField dof;
     ColorAdjustments ca;
     MotionBlur mb;
+    Text hud;
+
+    [Header("SFX")]
+    [SerializeField] AudioClip apertureClick;
+    [SerializeField] AudioClip shutterClick;
 
     [Header("Sensitivity")]
 
@@ -52,6 +57,8 @@ public class CameraSettings : MonoBehaviour
         camVolume.profile.TryGet<MotionBlur>(out mb);
 
         startingFov = Camera.main.fieldOfView;
+
+        hud = GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
@@ -64,18 +71,28 @@ public class CameraSettings : MonoBehaviour
         }
 
         // get inputs
-        focus = Mathf.Clamp(focus + Input.mouseScrollDelta.y * focusSensitivity, 0, 0.99f);
+        focus = Mathf.Clamp(focus - Input.mouseScrollDelta.y * focusSensitivity, 0, 0.99f);
 
         zoom += Input.GetAxis("Vertical") * Time.deltaTime * zoomSensitivity;
         zoom = Mathf.Clamp(zoom, 0, 1);
 
+        float tempShutterSpeed = shutterSpeed;
         if (Input.GetKeyDown(KeyCode.D)) shutterSpeed *= 2;
         if (Input.GetKeyDown(KeyCode.A)) shutterSpeed /= 2;
         shutterSpeed = Mathf.Clamp(shutterSpeed, 32, 2048);
+        if(tempShutterSpeed != shutterSpeed) AudioSource.PlayClipAtPoint(shutterClick, Camera.main.transform.position);
 
-        if (Input.GetKeyDown(KeyCode.E)) aperture += 0.1f;
-        if (Input.GetKeyDown(KeyCode.Q)) aperture -= 0.1f;
-        aperture = Mathf.Clamp(aperture, 0.15f, 1);
+        float tempAperture = aperture;
+
+        float[] fstops = { 1.8f, 2.2f, 2.8f, 3.3f, 4, 4.7f, 5.6f, 6.7f, 8, 9.4f, 11, 13.3f, 16, 18.6f, 22 };
+        int i = FindClosest(50 / (diameter * aperture), fstops);
+
+        if (Input.GetKeyDown(KeyCode.E) && i < fstops.Length - 1) aperture = 50 / (fstops[i+1] * diameter);
+        if (Input.GetKeyDown(KeyCode.Q) && i > 0) aperture = 50 / (fstops[i - 1] * diameter);
+
+        // aperture = focalLength / (fstops[i] * diameter);
+
+        if(tempAperture != aperture) AudioSource.PlayClipAtPoint(apertureClick, Camera.main.transform.position);
 
         // do calculations
         float focalLength = Mathf.Lerp(minFocalLength, maxFocalLength, zoom);
@@ -96,5 +113,35 @@ public class CameraSettings : MonoBehaviour
 
         Camera.main.focalLength = focalLength;
 
+        UpdateHUD(shutterSpeed, 50 / (diameter * aperture));
+    }
+
+    void UpdateHUD(float shutterSpeed, float fstop)
+    {
+        float[] fstops = { 1.8f, 2.2f, 2.8f, 3.3f, 4, 4.7f, 5.6f, 6.7f, 8, 9.4f, 11, 13.3f, 16, 18.6f, 22 };
+        float[] sspeeds = { 30, 60, 125, 250, 500, 1000, 2000 };
+
+        float f = fstops[FindClosest(fstop, fstops)];
+        float s = sspeeds[FindClosest(shutterSpeed, sspeeds)];
+
+        string text = "1/" + s + "\nF" + f;
+        if (ViewModelCamera.HasFlash) text += "\nFLASH";
+
+        hud.text = text;
+    }
+
+    int FindClosest(float n, float[] l)
+    {
+        int best = 0;
+
+        for(int i = 0; i < l.Length; i++)
+        {
+            float a = Mathf.Abs(n - l[i]);
+            float b = Mathf.Abs(n - l[best]);
+
+            if (best == -1 || a < b) best = i;
+        }
+
+        return best;
     }
 }

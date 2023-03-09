@@ -30,6 +30,9 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField] Image fadeOverlay;
     [SerializeField] GameObject shutter;
 
+    [Header("SFX")]
+    [SerializeField] AudioClip shutterSFX;
+
     Volume camVolume;
     Camera mCamera;
 
@@ -45,9 +48,11 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField] float fadeDuration;
     [SerializeField] Color fadeTargetColor;
 
+    GameObject hud;
     Color fadeStartingColor;
     float fadeTimer = 0;
     bool camviewOn = false;
+    bool canTakePhoto = true;
 
     int photoIndex = 0;
 
@@ -77,9 +82,10 @@ public class PhotoCapture : MonoBehaviour
             photos[i].filterMode = FilterMode.Point;
         }
 
-        // get post processing effect
-
         camVolume = GetComponent<Volume>();
+
+        hud = GetComponentInChildren<Text>().gameObject;
+        hud.SetActive(false);
 
         fadeTimer = -fadeDuration;
         fadeStartingColor = fadeOverlay.color;
@@ -88,7 +94,8 @@ public class PhotoCapture : MonoBehaviour
 
     void CapturePhoto()
     {
-        if (!camEnabled) return;
+        if (!camEnabled || !canTakePhoto) return;
+        canTakePhoto = false;
 
         shutter.SetActive(true);
         Invoke("HideShutter", 0.2f);
@@ -111,13 +118,10 @@ public class PhotoCapture : MonoBehaviour
         viewFinder.SetActive(true);
         //flashLight.SetActive(false);
 
-        if(photoIndex == 0)
-        {
-            Debug.Log("hello???");
-            //player.position = new Vector3(teleport.position.x, teleport.position.y, teleport.position.z);
+        if(photoIndex == 0) player.transform.position = teleport.position;
+        AudioSource.PlayClipAtPoint(shutterSFX, mCamera.transform.position);
 
-            player.transform.position = teleport.position;
-        }
+        Invoke("ToggleCamera", 0.4f);
     }
 
     private void LateUpdate()
@@ -126,17 +130,7 @@ public class PhotoCapture : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            if (camviewOn)
-            {
-                SetFadeTimer();
-                Invoke("DisableCamview", fadeDuration / 2);
-            }
-            else
-            {
-                Invoke("SetFadeTimer", 0.3f);
-                Invoke("EnableCamview", 0.3f + fadeDuration / 2);
-            }
-            camviewOn = !camviewOn;
+            ToggleCamera();
         }
 
         float t = (Time.time - fadeTimer) / fadeDuration;
@@ -145,15 +139,38 @@ public class PhotoCapture : MonoBehaviour
 
     }
 
-    void EnableCamview()
+    //void LineUpShot_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    //{
+    //    ToggleCamera();
+
+    //    Debug.Log("Line up shot");
+    //}
+
+    void ToggleCamera()
     {
-        SetCamVisibility(true);
+
+        if (camviewOn)
+        {
+            SetFadeTimer();
+            Invoke("DisableCamview", fadeDuration / 2);
+            Invoke("SetAbilityToRetake", fadeDuration * 2);
+        }
+        else
+        {
+            if (!canTakePhoto) return;
+            Invoke("SetFadeTimer", 0.3f);
+            Invoke("EnableCamview", 0.3f + fadeDuration / 2);
+        }
+        camviewOn = !camviewOn;
+
+        cameraModel.SendMessage("ToggleCamera");
     }
 
-    void DisableCamview()
-    {
-        SetCamVisibility(false);
-    }
+    void SetAbilityToRetake() => canTakePhoto = true;
+
+    void EnableCamview() => SetCamVisibility(true);
+
+    void DisableCamview() => SetCamVisibility(false);
 
     void SetCamVisibility(bool active)
     {
@@ -164,11 +181,8 @@ public class PhotoCapture : MonoBehaviour
         }
 
         viewFinder.SetActive(active);
-        //MeshRenderer[] vms = viewFinder.GetComponentsInChildren<MeshRenderer>();
-        //for (int i = 0; i < vms.Length; i++)
-        //{
-        //    vms[i].enabled = active;
-        //}
+
+        hud.SetActive(active);
 
         camVolume.enabled = active;
         camEnabled = active;
@@ -176,13 +190,7 @@ public class PhotoCapture : MonoBehaviour
         flashLight.SetActive(active && ViewModelCamera.HasFlash);
     }
 
-    void HideShutter()
-    {
-        shutter.SetActive(false);
-    }
+    void HideShutter() => shutter.SetActive(false);
 
-    void SetFadeTimer()
-    {
-        fadeTimer = Time.time;
-    }
+    void SetFadeTimer() => fadeTimer = Time.time;
 }

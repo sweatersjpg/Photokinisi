@@ -58,7 +58,9 @@ public class CameraSettings : MonoBehaviour
 
         startingFov = Camera.main.fieldOfView;
 
-        hud = GetComponentInChildren<Text>();
+        Text[] hudText = GetComponentsInChildren<Text>();
+        hud = hudText[0];
+
     }
 
     // Update is called once per frame

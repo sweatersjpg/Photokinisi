@@ -48,7 +48,9 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField] float fadeDuration;
     [SerializeField] Color fadeTargetColor;
 
-    GameObject hud;
+    Text hudSettings;
+    Text hudCount;
+
     Color fadeStartingColor;
     float fadeTimer = 0;
     bool camviewOn = false;
@@ -84,8 +86,14 @@ public class PhotoCapture : MonoBehaviour
 
         camVolume = GetComponent<Volume>();
 
-        hud = GetComponentInChildren<Text>().gameObject;
-        hud.SetActive(false);
+        Text[] hudText = GetComponentsInChildren<Text>();
+
+        hudSettings = hudText[0];
+        hudCount = hudText[1];
+        hudCount.text = photoCount+"";
+
+        hudCount.gameObject.SetActive(false);
+        hudSettings.gameObject.SetActive(false);
 
         fadeTimer = -fadeDuration;
         fadeStartingColor = fadeOverlay.color;
@@ -103,6 +111,7 @@ public class PhotoCapture : MonoBehaviour
         Texture2D photo = photos[photoIndex];
 
         photoIndex = (photoIndex + 1) % photos.Length;
+        hudCount.text = (photoCount - photoIndex) + "";
         viewFinder.SetActive(false);
         //if (ViewModelCamera.HasFlash) flashLight.SetActive(true);
 
@@ -200,7 +209,8 @@ public class PhotoCapture : MonoBehaviour
 
         viewFinder.SetActive(active);
 
-        hud.SetActive(active);
+        hudCount.gameObject.SetActive(active);
+        hudSettings.gameObject.SetActive(active);
 
         camVolume.enabled = active;
         camEnabled = active;

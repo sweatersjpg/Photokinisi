@@ -24,19 +24,24 @@ public class ViewModelCamera : MonoBehaviour
         PlayerInput = new Controls();
 
         PlayerInput.FPS.FlashOnOff.performed += FlashOnOff_performed;
-        PlayerInput.FPS.LineUpShot.performed += LineUpShot_performed;
+        // PlayerInput.FPS.LineUpShot.performed += LineUpShot_performed; // now called from PhotoCapture
     }
 
-    private void LineUpShot_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    //private void LineUpShot_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    //{
+    //    ToggleCamera();
+    //}
+
+    void ToggleCamera()
     {
-        if(!ToggleLineUpShot)
+        if (!ToggleLineUpShot)
         {
             return;
         }
 
         LUS = !LUS;
 
-        if(LUS)
+        if (LUS)
         {
             animator.SetBool("LineUpShot", (PlayerInput.FPS.LineUpShot.ReadValue<float>() > 0));
         }
@@ -53,9 +58,16 @@ public class ViewModelCamera : MonoBehaviour
     {
         if(SwapingFlash == null)
         {
-            StartCoroutine(SwicthFlashModes());
+            if (PhotoCapture.camEnabled)
+            {
+                Invoke("AnotherFunctionAbstractionJustForTimingButThisTimeForFlash", 0.5f);
+                PhotoCapture.instance.SendMessage("ToggleCamera");
+            }
+            else AnotherFunctionAbstractionJustForTimingButThisTimeForFlash();
         }
     }
+
+    void AnotherFunctionAbstractionJustForTimingButThisTimeForFlash() => StartCoroutine(SwicthFlashModes());
 
     private void Start()
     {

@@ -4,6 +4,21 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Prot0.1/Prot0.1.unity
+    guid: 87159bf8cc6774def93290f71007e8d7
+  - enabled: 1
+    path: Assets/Scenes/Gallery.unity
+    guid: 191cc7eca09556a48a3328c69b300f75
+  - enabled: 1
+    path: Assets/Scenes/MattDev.unity
+    guid: af9025beb5abf454c8600a78cc100b24
+  - enabled: 1
+    path: Assets/Scenes/ZachLevel.unity
+    guid: 33a41d3417be4a3419144d675cd4a45e
+  - enabled: 1
+    path: Assets/Scenes/Floors.unity
+    guid: f35ad9675a21059468abb066459586bc
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f69136ca8c633ae42ae637bbb8c7e434, type: 2}

@@ -34,9 +34,24 @@ public class SC_FPSController : MonoBehaviour
     Vector3 cameraTargetPosition;
     float runSpeedBackup;
 
+    [HideInInspector] public Vector3 teleport;
+    [HideInInspector] public bool canTeleport = false;
+
     private void Awake()
     {
-        PlayerController = this;
+        if (PlayerController == null)
+        {
+            PlayerController = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            //PlayerController.transform.position = transform.position;
+            PlayerController.teleport = transform.position;
+            PlayerController.canTeleport = true;
+
+            Destroy(gameObject);
+        }
     }
 
     void Start()
@@ -58,6 +73,23 @@ public class SC_FPSController : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) Cursor.visible = false;
 
         CharacterMovement();
+    }
+
+    private void LateUpdate()
+    {
+        if (canTeleport)
+        {
+            //Debug.Log("Teleporting Player :)");
+
+            canTeleport = false;
+
+            // Debug.Log(transform.position);
+            characterController.enabled = false;
+            transform.position = teleport;
+            characterController.enabled = true;
+            // Debug.Log(transform.position);
+            PhotoCapture.instance.SendMessage("ShutterSound");
+        }
     }
 
     private void CharacterMovement()

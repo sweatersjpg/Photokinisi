@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.U2D;
+using UnityEngine.SceneManagement;
 // using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 
@@ -13,10 +13,7 @@ public class PhotoCapture : MonoBehaviour
     [HideInInspector] public static Texture2D[] photos;
     public static bool camEnabled = false;
 
-    [Header("Teleport")]
-
-    public GameObject player;
-    public Transform teleport;
+    GameObject player;
 
     [Header("Assets")]
 
@@ -59,18 +56,34 @@ public class PhotoCapture : MonoBehaviour
 
     int photoIndex = 0;
 
+    int lastScene = 0; // set this to starting scene
+    bool sceneIsLoading = false;
+    bool nextSceneReady = false;
+    bool loadSceneNow = false;
+
+    public int galleryBuildIndex = 1;
+
     RenderTexture rt;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        // makes it a singleton :)
-        if (instance == null) instance = this;
-        else
-        {
-            enabled = false;
-            return;
-        }
+        Application.backgroundLoadingPriority = ThreadPriority.Low;
+
+        player = SC_FPSController.PlayerController.gameObject;
 
         if (mCamera == null) mCamera = Camera.main;
 
@@ -99,6 +112,7 @@ public class PhotoCapture : MonoBehaviour
         fadeTimer = -fadeDuration;
         fadeStartingColor = fadeOverlay.color;
 
+        PrepareNextScene(true);
     }
 
     void CapturePhoto()
@@ -128,12 +142,75 @@ public class PhotoCapture : MonoBehaviour
         viewFinder.SetActive(true);
         //flashLight.SetActive(false);
 
-        if(photoIndex == 0) player.transform.position = teleport.position;
-        AudioSource.PlayClipAtPoint(shutterSFX, mCamera.transform.position);
+        // if(photoIndex == 0) player.transform.position = teleport.position;
+        //AudioSource.PlayClipAtPoint(shutterSFX, mCamera.transform.position);
 
         Invoke("ToggleCamera", 0.4f);
         Invoke("AdvanceFilm", 1f);
         Invoke("AdvanceFilmSound", 1.1f);
+
+        PrepareNextScene(false);
+
+        if(!loadSceneNow) AudioSource.PlayClipAtPoint(shutterSFX, mCamera.transform.position);
+    }
+
+    void PrepareNextScene(bool firstTime)
+    {
+        if (sceneIsLoading) return;
+
+        if (nextSceneReady)
+        {
+            //Debug.Log("activating scene change");
+            loadSceneNow = true;
+        }
+
+        int i = Random.Range(0, SceneManager.sceneCountInBuildSettings);
+        while (i == galleryBuildIndex) i = Random.Range(1, SceneManager.sceneCountInBuildSettings);
+        if (photoIndex == photoCount - 1) i = galleryBuildIndex;
+
+        //Debug.Log(i);
+
+        if (i != lastScene && lastScene != galleryBuildIndex)
+        {
+            lastScene = i;
+            //Debug.Log("Starting Coroutine");
+            Invoke("StartAsyncLoad", 2f);
+        }
+    }
+
+    void StartAsyncLoad() => StartCoroutine(LoadLevel());
+
+    IEnumerator LoadLevel()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(lastScene, LoadSceneMode.Single);
+        asyncLoad.allowSceneActivation = false;
+        sceneIsLoading = true;
+
+        //Debug.Log("Level starting to load");
+
+        while (!asyncLoad.isDone)
+        {
+            if (asyncLoad.progress >= 0.9f)
+            {
+                //if (!nextSceneReady) Debug.Log("Scene ready :)");
+
+                nextSceneReady = true;
+                sceneIsLoading = false;
+
+                if (loadSceneNow)
+                {
+                    //Debug.Log("Loading scene");
+
+                    sceneIsLoading = false;
+                    nextSceneReady = false;
+                    loadSceneNow = false;
+
+                    asyncLoad.allowSceneActivation = true;
+                }
+            }
+
+            yield return null;
+        }
     }
 
     private void LateUpdate()
@@ -173,6 +250,8 @@ public class PhotoCapture : MonoBehaviour
     //}
     void AdvanceFilm() => cameraModel.SendMessage("AdvanceFilm");
     void AdvanceFilmSound() => AudioSource.PlayClipAtPoint(advFilm, mCamera.transform.position);
+
+    void ShutterSound() => AudioSource.PlayClipAtPoint(shutterSFX, mCamera.transform.position);
 
     void ToggleCamera()
     {

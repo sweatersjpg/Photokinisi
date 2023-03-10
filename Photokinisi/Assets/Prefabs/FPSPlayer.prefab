@@ -559,7 +559,7 @@ Camera:
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 48}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 41.569218
+  m_FocalLength: 41.56922
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0

@@ -133,6 +133,20 @@ public class PhotoCapture : MonoBehaviour
             ToggleCamera();
         }
 
+        if(camEnabled)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                SC_FPSController.PlayerController.canMove = true;
+                SC_FPSController.PlayerController.SendMessage("EngageCrouch");
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                SC_FPSController.PlayerController.canMove = false;
+                SC_FPSController.PlayerController.SendMessage("DisengageCrouch");
+            }
+        }
+
         float t = (Time.time - fadeTimer) / fadeDuration;
         //cam_exp.postExposure.value = Mathf.Lerp(0, intencity, fade.Evaluate(t));
         fadeOverlay.color = Color.Lerp(fadeStartingColor, fadeTargetColor, fade.Evaluate(t));
@@ -170,7 +184,11 @@ public class PhotoCapture : MonoBehaviour
 
     void EnableCamview() => SetCamVisibility(true);
 
-    void DisableCamview() => SetCamVisibility(false);
+    void DisableCamview()
+    {
+        SetCamVisibility(false);
+        SC_FPSController.PlayerController.SendMessage("DisengageCrouch");
+    }
 
     void SetCamVisibility(bool active)
     {
@@ -188,6 +206,8 @@ public class PhotoCapture : MonoBehaviour
         camEnabled = active;
 
         flashLight.SetActive(active && ViewModelCamera.HasFlash);
+
+        SC_FPSController.PlayerController.canMove = !active;
     }
 
     void HideShutter() => shutter.SetActive(false);

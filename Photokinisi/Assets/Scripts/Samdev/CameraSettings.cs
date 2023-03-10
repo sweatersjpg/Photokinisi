@@ -64,7 +64,7 @@ public class CameraSettings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!PhotoCapture.camEnabled)
+        if (!PhotoCapture.camEnabled)
         {
             Camera.main.fieldOfView = startingFov;
             return;
@@ -72,6 +72,10 @@ public class CameraSettings : MonoBehaviour
 
         // get inputs
         focus = Mathf.Clamp(focus - Input.mouseScrollDelta.y * focusSensitivity, 0, 0.99f);
+        dof.focusDistance.value = -0.4f / (focus - 1);
+
+        // allow focusing but nothing else when player can move
+        if (SC_FPSController.PlayerController.canMove) return;
 
         zoom += Input.GetAxis("Vertical") * Time.deltaTime * zoomSensitivity;
         zoom = Mathf.Clamp(zoom, 0, 1);
@@ -102,7 +106,6 @@ public class CameraSettings : MonoBehaviour
         //Debug.Log(fstop + " : " + EV);
 
         // apply values
-        dof.focusDistance.value = -0.4f / (focus - 1);
         dof.focalLength.value = focalLength;
         dof.aperture.value = fstop;
 

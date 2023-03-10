@@ -760,6 +760,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkingSpeed: 4
   runningSpeed: 7
+  crouchSpeed: 5
+  crouchHeight: 1
   jumpSpeed: 4
   gravity: 9.8
   playerCamera: {fileID: 7724151021797593339}
@@ -768,6 +770,7 @@ MonoBehaviour:
   characterController: {fileID: 0}
   MouseLook: {x: 0, y: 0}
   canMove: 1
+  crouching: 0
 --- !u!143 &7724151022414550922
 CharacterController:
   m_ObjectHideFlags: 0

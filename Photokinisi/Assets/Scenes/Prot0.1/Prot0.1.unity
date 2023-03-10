@@ -14084,21 +14084,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 767228199, guid: 49667038be6234d1fbefbf8133aaca9d, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132148755875687, guid: 49667038be6234d1fbefbf8133aaca9d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7724151022414550923, guid: 49667038be6234d1fbefbf8133aaca9d, type: 3}
       propertyPath: m_Name
       value: FPSPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 7724151022414550923, guid: 49667038be6234d1fbefbf8133aaca9d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7724151022414550924, guid: 49667038be6234d1fbefbf8133aaca9d, type: 3}
       propertyPath: m_RootOrder
@@ -14143,10 +14131,6 @@ PrefabInstance:
     - target: {fileID: 7724151022414550924, guid: 49667038be6234d1fbefbf8133aaca9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7724151022414550925, guid: 49667038be6234d1fbefbf8133aaca9d, type: 3}
-      propertyPath: lookSpeed
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49667038be6234d1fbefbf8133aaca9d, type: 3}
@@ -64186,10 +64170,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4705053719274877220, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5473125375919679866, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
       propertyPath: m_Camera
       value: 
@@ -64261,10 +64241,6 @@ PrefabInstance:
     - target: {fileID: 5473125377557666122, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
       propertyPath: m_Name
       value: PhotoManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 7033203266889758431, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}

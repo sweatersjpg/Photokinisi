@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.55
-  m_Text: 0/10
+  m_Text: penis
 --- !u!1 &5473125375919679861
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +441,7 @@ MonoBehaviour:
   fadeOverlay: {fileID: 5473125376591256246}
   shutter: {fileID: 5473125376473974648}
   shutterSFX: {fileID: 8300000, guid: fb21997afa3504c3ead55a163100cd91, type: 3}
+  advFilm: {fileID: 8300000, guid: 7a88db0fde20e4ce2a924125143af65b, type: 3}
   photoCount: 10
   resolution: {x: 1500, y: 1000}
   fade:

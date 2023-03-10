@@ -54,6 +54,11 @@ public class ViewModelCamera : MonoBehaviour
 
     void StupidExtraFunctionToUseInAnInvokeForSettingABool() => animator.SetBool("LineUpShot", (PlayerInput.FPS.LineUpShot.ReadValue<float>() > 1));
 
+    void AdvanceFilm()
+    {
+        animator.SetTrigger("AdvFilm");
+    }
+
     private void FlashOnOff_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if(SwapingFlash == null)

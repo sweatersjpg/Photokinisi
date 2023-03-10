@@ -32,6 +32,7 @@ public class PhotoCapture : MonoBehaviour
 
     [Header("SFX")]
     [SerializeField] AudioClip shutterSFX;
+    [SerializeField] AudioClip advFilm;
 
     Volume camVolume;
     Camera mCamera;
@@ -131,6 +132,8 @@ public class PhotoCapture : MonoBehaviour
         AudioSource.PlayClipAtPoint(shutterSFX, mCamera.transform.position);
 
         Invoke("ToggleCamera", 0.4f);
+        Invoke("AdvanceFilm", 1f);
+        Invoke("AdvanceFilmSound", 1.1f);
     }
 
     private void LateUpdate()
@@ -168,6 +171,8 @@ public class PhotoCapture : MonoBehaviour
 
     //    Debug.Log("Line up shot");
     //}
+    void AdvanceFilm() => cameraModel.SendMessage("AdvanceFilm");
+    void AdvanceFilmSound() => AudioSource.PlayClipAtPoint(advFilm, mCamera.transform.position);
 
     void ToggleCamera()
     {
@@ -176,7 +181,7 @@ public class PhotoCapture : MonoBehaviour
         {
             SetFadeTimer();
             Invoke("DisableCamview", fadeDuration / 2);
-            Invoke("SetAbilityToRetake", fadeDuration * 2);
+            Invoke("SetAbilityToRetake", 1);
         }
         else
         {

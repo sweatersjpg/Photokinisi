@@ -10,6 +10,8 @@ public class SC_FPSController : MonoBehaviour
 
     public float walkingSpeed = 7.5f;
     public float runningSpeed = 11.5f;
+    public float crouchSpeed = 5;
+    public float crouchHeight = 1;
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
     public Camera playerCamera;
@@ -25,6 +27,13 @@ public class SC_FPSController : MonoBehaviour
     [HideInInspector]
     public bool canMove = true;
 
+    [HideInInspector]
+    public bool crouching = false;
+
+    Vector3 cameraStartingPosition;
+    Vector3 cameraTargetPosition;
+    float runSpeedBackup;
+
     private void Awake()
     {
         PlayerController = this;
@@ -33,6 +42,10 @@ public class SC_FPSController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        runSpeedBackup = runningSpeed;
+
+        cameraStartingPosition = playerCamera.transform.localPosition;
+        cameraTargetPosition = cameraStartingPosition;
 
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
@@ -43,8 +56,6 @@ public class SC_FPSController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape)) Cursor.visible = true;
         if (Input.GetMouseButtonDown(0)) Cursor.visible = false;
-
-        canMove = !PhotoCapture.camEnabled;
 
         CharacterMovement();
     }
@@ -92,6 +103,24 @@ public class SC_FPSController : MonoBehaviour
         }
 
         MouseLook = new Vector2(rotationX, Input.GetAxis("Mouse X") * lookSpeed);
+
+        playerCamera.transform.localPosition += (cameraTargetPosition - playerCamera.transform.localPosition) / 4 * Time.deltaTime * 50;
+    }
+
+    void EngageCrouch()
+    {
+        runningSpeed = crouchSpeed;
+        crouching = true;
+
+        cameraTargetPosition = new Vector3(0, crouchHeight, 0);
+    }
+
+    void DisengageCrouch()
+    {
+        runningSpeed = runSpeedBackup;
+        crouching = false;
+
+        cameraTargetPosition = cameraStartingPosition;
     }
 
     private void OnApplicationFocus(bool focus)

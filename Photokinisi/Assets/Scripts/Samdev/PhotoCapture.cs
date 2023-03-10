@@ -48,7 +48,9 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField] float fadeDuration;
     [SerializeField] Color fadeTargetColor;
 
-    GameObject hud;
+    Text hudSettings;
+    Text hudCount;
+
     Color fadeStartingColor;
     float fadeTimer = 0;
     bool camviewOn = false;
@@ -84,8 +86,14 @@ public class PhotoCapture : MonoBehaviour
 
         camVolume = GetComponent<Volume>();
 
-        hud = GetComponentInChildren<Text>().gameObject;
-        hud.SetActive(false);
+        Text[] hudText = GetComponentsInChildren<Text>();
+
+        hudSettings = hudText[0];
+        hudCount = hudText[1];
+        hudCount.text = photoCount+"";
+
+        hudCount.gameObject.SetActive(false);
+        hudSettings.gameObject.SetActive(false);
 
         fadeTimer = -fadeDuration;
         fadeStartingColor = fadeOverlay.color;
@@ -103,6 +111,7 @@ public class PhotoCapture : MonoBehaviour
         Texture2D photo = photos[photoIndex];
 
         photoIndex = (photoIndex + 1) % photos.Length;
+        hudCount.text = (photoCount - photoIndex) + "";
         viewFinder.SetActive(false);
         //if (ViewModelCamera.HasFlash) flashLight.SetActive(true);
 
@@ -131,6 +140,20 @@ public class PhotoCapture : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             ToggleCamera();
+        }
+
+        if(camEnabled)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                SC_FPSController.PlayerController.canMove = true;
+                SC_FPSController.PlayerController.SendMessage("EngageCrouch");
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                SC_FPSController.PlayerController.canMove = false;
+                SC_FPSController.PlayerController.SendMessage("DisengageCrouch");
+            }
         }
 
         float t = (Time.time - fadeTimer) / fadeDuration;
@@ -170,7 +193,11 @@ public class PhotoCapture : MonoBehaviour
 
     void EnableCamview() => SetCamVisibility(true);
 
-    void DisableCamview() => SetCamVisibility(false);
+    void DisableCamview()
+    {
+        SetCamVisibility(false);
+        SC_FPSController.PlayerController.SendMessage("DisengageCrouch");
+    }
 
     void SetCamVisibility(bool active)
     {
@@ -182,12 +209,15 @@ public class PhotoCapture : MonoBehaviour
 
         viewFinder.SetActive(active);
 
-        hud.SetActive(active);
+        hudCount.gameObject.SetActive(active);
+        hudSettings.gameObject.SetActive(active);
 
         camVolume.enabled = active;
         camEnabled = active;
 
         flashLight.SetActive(active && ViewModelCamera.HasFlash);
+
+        SC_FPSController.PlayerController.canMove = !active;
     }
 
     void HideShutter() => shutter.SetActive(false);

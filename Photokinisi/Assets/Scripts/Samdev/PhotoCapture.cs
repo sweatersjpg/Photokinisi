@@ -174,7 +174,7 @@ public class PhotoCapture : MonoBehaviour
         }
 
         int i = Random.Range(0, SceneManager.sceneCountInBuildSettings);
-        while (i == galleryBuildIndex) i = Random.Range(1, SceneManager.sceneCountInBuildSettings);
+        while (i == galleryBuildIndex || i == lastScene) i = Random.Range(1, SceneManager.sceneCountInBuildSettings);
         if (photoIndex == photoCount - 1) i = galleryBuildIndex;
 
         //Debug.Log(i);

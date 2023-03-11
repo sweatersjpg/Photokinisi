@@ -3,7 +3,12 @@ guid: b32d40e522fdb21409c4ef92e7ea6c46
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: JeepCherokee
+    second: {fileID: 2100000, guid: 1e8851c5594caba48b51f5f5cc3bbdae, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

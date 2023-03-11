@@ -69,8 +69,11 @@ public class SC_FPSController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) Cursor.visible = true;
-        if (Input.GetMouseButtonDown(0)) Cursor.visible = false;
+        //if (Input.GetKeyDown(KeyCode.Escape)) Cursor.visible = true;
+        //if (Input.GetMouseButtonDown(0)) Cursor.visible = false;
+        if (PauseSystem.paused) return;
+
+        lookSpeed = PauseSystem.pauseSystem.mouseSensitivity;
 
         CharacterMovement();
     }
@@ -88,7 +91,7 @@ public class SC_FPSController : MonoBehaviour
             transform.position = teleport;
             characterController.enabled = true;
             // Debug.Log(transform.position);
-            PhotoCapture.instance.SendMessage("ShutterSound");
+            //PhotoCapture.instance.SendMessage("ShutterSound");
         }
     }
 
@@ -126,13 +129,13 @@ public class SC_FPSController : MonoBehaviour
         characterController.Move(moveDirection * Time.deltaTime);
 
         // Player and Camera rotation
-        if (!Cursor.visible)
-        {
+        //if (!Cursor.visible)
+        //{
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        }
+        //}
 
         MouseLook = new Vector2(rotationX, Input.GetAxis("Mouse X") * lookSpeed);
 
@@ -155,8 +158,8 @@ public class SC_FPSController : MonoBehaviour
         cameraTargetPosition = cameraStartingPosition;
     }
 
-    private void OnApplicationFocus(bool focus)
-    {
-        Cursor.visible = false;
-    }
+    //private void OnApplicationFocus(bool focus)
+    //{
+    //    Cursor.visible = false;
+    //}
 }

@@ -10,6 +10,8 @@ public class CameraSettings : MonoBehaviour
     [SerializeField]
     Volume camVolume;
 
+    AudioSource audio;
+
     DepthOfField dof;
     ColorAdjustments ca;
     MotionBlur mb;
@@ -40,7 +42,7 @@ public class CameraSettings : MonoBehaviour
     [SerializeField]
     float diameter = 27.77f;
 
-    float startingFov;
+    // float startingFov;
 
     [Header("Settings")]
 
@@ -56,10 +58,12 @@ public class CameraSettings : MonoBehaviour
         camVolume.profile.TryGet<ColorAdjustments>(out ca);
         camVolume.profile.TryGet<MotionBlur>(out mb);
 
-        startingFov = Camera.main.fieldOfView;
+        // startingFov = Camera.main.fieldOfView;
 
         Text[] hudText = GetComponentsInChildren<Text>();
         hud = hudText[0];
+
+        audio = GetComponent<AudioSource>();
 
     }
 
@@ -68,9 +72,12 @@ public class CameraSettings : MonoBehaviour
     {
         if (!PhotoCapture.camEnabled)
         {
-            Camera.main.fieldOfView = startingFov;
+            //Camera.main.fieldOfView = startingFov;
+            Camera.main.fieldOfView = PauseSystem.pauseSystem.FOV;
             return;
         }
+
+        if (PauseSystem.paused) return;
 
         // get inputs
         focus = Mathf.Clamp(focus - Input.mouseScrollDelta.y * focusSensitivity, 0, 0.99f);
@@ -86,7 +93,7 @@ public class CameraSettings : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D)) shutterSpeed *= 2;
         if (Input.GetKeyDown(KeyCode.A)) shutterSpeed /= 2;
         shutterSpeed = Mathf.Clamp(shutterSpeed, 32, 2048);
-        if(tempShutterSpeed != shutterSpeed) AudioSource.PlayClipAtPoint(shutterClick, Camera.main.transform.position);
+        if(tempShutterSpeed != shutterSpeed) audio.PlayOneShot(shutterClick);
 
         float tempAperture = aperture;
 
@@ -98,7 +105,7 @@ public class CameraSettings : MonoBehaviour
 
         // aperture = focalLength / (fstops[i] * diameter);
 
-        if(tempAperture != aperture) AudioSource.PlayClipAtPoint(apertureClick, Camera.main.transform.position);
+        if(tempAperture != aperture) audio.PlayOneShot(apertureClick);
 
         // do calculations
         float focalLength = Mathf.Lerp(minFocalLength, maxFocalLength, zoom);

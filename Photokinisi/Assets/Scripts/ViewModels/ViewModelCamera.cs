@@ -137,10 +137,12 @@ public class ViewModelCamera : MonoBehaviour
         if(HasFlash)
         {
             animator.SetTrigger("FlashOff");
+            PhotoCapture.instance.SendMessage("PlayFlashOffSound");
         }
         else
         {
             animator.SetTrigger("FlashOn");
+            PhotoCapture.instance.SendMessage("PlayFlashOnSound");
         }
 
         yield return new WaitForSeconds(FlashSwapTime);

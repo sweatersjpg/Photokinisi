@@ -24,12 +24,15 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField]
     GameObject flashLight;
 
+    [Space]
     [SerializeField] Image fadeOverlay;
     [SerializeField] GameObject shutter;
 
     [Header("SFX")]
     [SerializeField] AudioClip shutterSFX;
     [SerializeField] AudioClip advFilm;
+    [SerializeField] AudioClip flashOn;
+    [SerializeField] AudioClip flashOff;
 
     Volume camVolume;
     Camera mCamera;
@@ -39,6 +42,8 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField] int photoCount = 24;
 
     [SerializeField] Vector2 resolution;
+
+    [SerializeField] bool changeSceneOnPhotoCapture = false;
 
     [Header("Effects")]
 
@@ -64,13 +69,14 @@ public class PhotoCapture : MonoBehaviour
     public int galleryBuildIndex = 1;
 
     RenderTexture rt;
+    AudioSource audioSource;
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -82,6 +88,8 @@ public class PhotoCapture : MonoBehaviour
     void Start()
     {
         Application.backgroundLoadingPriority = ThreadPriority.Low;
+
+        audioSource = GetComponent<AudioSource>();
 
         player = SC_FPSController.PlayerController.gameObject;
 
@@ -112,7 +120,7 @@ public class PhotoCapture : MonoBehaviour
         fadeTimer = -fadeDuration;
         fadeStartingColor = fadeOverlay.color;
 
-        PrepareNextScene(true);
+        if(changeSceneOnPhotoCapture) PrepareNextScene(true);
     }
 
     void CapturePhoto()
@@ -149,9 +157,10 @@ public class PhotoCapture : MonoBehaviour
         Invoke("AdvanceFilm", 1f);
         Invoke("AdvanceFilmSound", 1.1f);
 
-        PrepareNextScene(false);
+        if (changeSceneOnPhotoCapture) PrepareNextScene(false);
 
-        if(!loadSceneNow) AudioSource.PlayClipAtPoint(shutterSFX, mCamera.transform.position);
+        audioSource.PlayOneShot(shutterSFX);
+        //if(!loadSceneNow) AudioSource.PlayClipAtPoint(shutterSFX, mCamera.transform.position);
     }
 
     void PrepareNextScene(bool firstTime)
@@ -165,7 +174,7 @@ public class PhotoCapture : MonoBehaviour
         }
 
         int i = Random.Range(0, SceneManager.sceneCountInBuildSettings);
-        while (i == galleryBuildIndex) i = Random.Range(1, SceneManager.sceneCountInBuildSettings);
+        while (i == galleryBuildIndex || i == lastScene) i = Random.Range(1, SceneManager.sceneCountInBuildSettings);
         if (photoIndex == photoCount - 1) i = galleryBuildIndex;
 
         //Debug.Log(i);
@@ -215,6 +224,8 @@ public class PhotoCapture : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (PauseSystem.paused) return;
+
         if (Input.GetMouseButtonDown(0)) CapturePhoto();
 
         if (Input.GetMouseButtonDown(1))
@@ -249,9 +260,13 @@ public class PhotoCapture : MonoBehaviour
     //    Debug.Log("Line up shot");
     //}
     void AdvanceFilm() => cameraModel.SendMessage("AdvanceFilm");
-    void AdvanceFilmSound() => AudioSource.PlayClipAtPoint(advFilm, mCamera.transform.position);
+    void AdvanceFilmSound() => audioSource.PlayOneShot(advFilm);
 
-    void ShutterSound() => AudioSource.PlayClipAtPoint(shutterSFX, mCamera.transform.position);
+    void PlayFlashOnSound() => Invoke("FlashOnSound", 0.4f);
+    void PlayFlashOffSound() => Invoke("FlashOffSound", 0.4f);
+
+    void FlashOnSound() => audioSource.PlayOneShot(flashOn, 0.2f);
+    void FlashOffSound() => audioSource.PlayOneShot(flashOff, 0.2f);
 
     void ToggleCamera()
     {

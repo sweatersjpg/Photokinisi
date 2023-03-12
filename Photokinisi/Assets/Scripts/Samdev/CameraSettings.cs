@@ -10,7 +10,7 @@ public class CameraSettings : MonoBehaviour
     [SerializeField]
     Volume camVolume;
 
-    AudioSource audio;
+    AudioSource audioSource;
 
     DepthOfField dof;
     ColorAdjustments ca;
@@ -63,7 +63,7 @@ public class CameraSettings : MonoBehaviour
         Text[] hudText = GetComponentsInChildren<Text>();
         hud = hudText[0];
 
-        audio = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -93,7 +93,7 @@ public class CameraSettings : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D)) shutterSpeed *= 2;
         if (Input.GetKeyDown(KeyCode.A)) shutterSpeed /= 2;
         shutterSpeed = Mathf.Clamp(shutterSpeed, 32, 2048);
-        if(tempShutterSpeed != shutterSpeed) audio.PlayOneShot(shutterClick);
+        if(tempShutterSpeed != shutterSpeed) audioSource.PlayOneShot(shutterClick);
 
         float tempAperture = aperture;
 
@@ -105,7 +105,7 @@ public class CameraSettings : MonoBehaviour
 
         // aperture = focalLength / (fstops[i] * diameter);
 
-        if(tempAperture != aperture) audio.PlayOneShot(apertureClick);
+        if(tempAperture != aperture) audioSource.PlayOneShot(apertureClick);
 
         // do calculations
         float focalLength = Mathf.Lerp(minFocalLength, maxFocalLength, zoom);

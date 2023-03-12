@@ -916,6 +916,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5473125377557666121, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+      propertyPath: flashOn
+      value: 
+      objectReference: {fileID: 8300000, guid: 2daea6a730531674092b5ca1f825ab31, type: 3}
+    - target: {fileID: 5473125377557666121, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+      propertyPath: flashOff
+      value: 
+      objectReference: {fileID: 8300000, guid: 9f3b71067fb2f1448b63a0fea39cf3d3, type: 3}
+    - target: {fileID: 5473125377557666121, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
       propertyPath: flashLight
       value: 
       objectReference: {fileID: 6868473652672576188}
@@ -927,6 +935,14 @@ PrefabInstance:
       propertyPath: cameraModel
       value: 
       objectReference: {fileID: 2980200830900249638}
+    - target: {fileID: 5473125377557666121, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+      propertyPath: galleryBuildIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5473125377557666121, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+      propertyPath: changeSceneOnPhotoCapture
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5473125377557666122, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
       propertyPath: m_Name
       value: PhotoManager

@@ -23,7 +23,7 @@ public class ViewModelCamera : MonoBehaviour
     {
         PlayerInput = new Controls();
 
-        PlayerInput.FPS.FlashOnOff.performed += FlashOnOff_performed;
+        // PlayerInput.FPS.FlashOnOff.performed += FlashOnOff_performed;
         // PlayerInput.FPS.LineUpShot.performed += LineUpShot_performed; // now called from PhotoCapture
     }
 
@@ -59,9 +59,22 @@ public class ViewModelCamera : MonoBehaviour
         animator.SetTrigger("AdvFilm");
     }
 
-    private void FlashOnOff_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    //private void FlashOnOff_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    //{
+    //    if(SwapingFlash == null)
+    //    {
+    //        if (PhotoCapture.camEnabled)
+    //        {
+    //            Invoke("AnotherFunctionAbstractionJustForTimingButThisTimeForFlash", 0.5f);
+    //            PhotoCapture.instance.SendMessage("ToggleCamera");
+    //        }
+    //        else AnotherFunctionAbstractionJustForTimingButThisTimeForFlash();
+    //    }
+    //}
+
+    private void FlashOnOff_performed()
     {
-        if(SwapingFlash == null)
+        if (SwapingFlash == null)
         {
             if (PhotoCapture.camEnabled)
             {
@@ -82,6 +95,8 @@ public class ViewModelCamera : MonoBehaviour
     private void Update()
     {
         transform.localPosition = CamTargetPos;
+
+        if (Input.GetKeyDown(KeyCode.F)) FlashOnOff_performed();
 
         if (!ToggleLineUpShot)
         {

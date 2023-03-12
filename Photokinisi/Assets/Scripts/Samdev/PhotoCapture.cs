@@ -61,12 +61,12 @@ public class PhotoCapture : MonoBehaviour
 
     int photoIndex = 0;
 
-    int lastScene = 0; // set this to starting scene
+    int lastScene = 1; // set this to starting scene
     bool sceneIsLoading = false;
     bool nextSceneReady = false;
     bool loadSceneNow = false;
 
-    public int galleryBuildIndex = 1;
+    public int galleryBuildIndex = 2;
 
     RenderTexture rt;
     AudioSource audioSource;
@@ -173,11 +173,11 @@ public class PhotoCapture : MonoBehaviour
             loadSceneNow = true;
         }
 
-        int i = Random.Range(0, SceneManager.sceneCountInBuildSettings);
+        int i = Random.Range(1, SceneManager.sceneCountInBuildSettings);
         while (i == galleryBuildIndex || i == lastScene) i = Random.Range(1, SceneManager.sceneCountInBuildSettings);
         if (photoIndex == photoCount - 1) i = galleryBuildIndex;
 
-        //Debug.Log(i);
+        // Debug.Log(i);
 
         if (i != lastScene && lastScene != galleryBuildIndex)
         {

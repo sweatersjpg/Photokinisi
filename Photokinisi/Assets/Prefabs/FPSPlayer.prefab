@@ -947,6 +947,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PhotoManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5473125377557666126, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+      propertyPath: focusSensitivity
+      value: 0.02
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
 --- !u!4 &9217162133923543904 stripped

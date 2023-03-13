@@ -924,6 +924,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 9f3b71067fb2f1448b63a0fea39cf3d3, type: 3}
     - target: {fileID: 5473125377557666121, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+      propertyPath: hudCount
+      value: 
+      objectReference: {fileID: 3755301323661145426}
+    - target: {fileID: 5473125377557666121, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
       propertyPath: flashLight
       value: 
       objectReference: {fileID: 6868473652672576188}
@@ -935,6 +939,10 @@ PrefabInstance:
       propertyPath: cameraModel
       value: 
       objectReference: {fileID: 2980200830900249638}
+    - target: {fileID: 5473125377557666121, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+      propertyPath: hudSettings
+      value: 
+      objectReference: {fileID: 8455006673368765196}
     - target: {fileID: 5473125377557666121, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
       propertyPath: galleryBuildIndex
       value: 2
@@ -948,11 +956,37 @@ PrefabInstance:
       value: PhotoManager
       objectReference: {fileID: 0}
     - target: {fileID: 5473125377557666126, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+      propertyPath: focus
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5473125377557666126, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
       propertyPath: focusSensitivity
       value: 0.02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+--- !u!114 &3755301323661145426 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1951520634, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+  m_PrefabInstance: {fileID: 3755301323322532392}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8455006673368765196 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4705053719274877220, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}
+  m_PrefabInstance: {fileID: 3755301323322532392}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9217162133923543904 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5473125377557666120, guid: 9abd4ac5de252417ea05857648dbce6c, type: 3}

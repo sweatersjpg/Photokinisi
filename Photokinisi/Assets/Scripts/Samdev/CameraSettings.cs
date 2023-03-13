@@ -15,7 +15,7 @@ public class CameraSettings : MonoBehaviour
     DepthOfField dof;
     ColorAdjustments ca;
     MotionBlur mb;
-    Text hud;
+    //Text hud;
 
     [Header("SFX")]
     [SerializeField] AudioClip apertureClick;
@@ -47,7 +47,7 @@ public class CameraSettings : MonoBehaviour
     [Header("Settings")]
 
     [SerializeField] float zoom = 0; // percentage
-    [SerializeField] float focus = 0; // percentage (0==0.4m, 1==infinity)
+    [SerializeField] float focus = 1; // percentage (0==0.4m, 1==infinity)
     [SerializeField] float aperture = 1; // percentage (1 == fully open, 0 == fully closed)
     [SerializeField] float shutterSpeed = 64; // 1/shutterSpeed == exposure duration
 
@@ -60,8 +60,8 @@ public class CameraSettings : MonoBehaviour
 
         // startingFov = Camera.main.fieldOfView;
 
-        Text[] hudText = GetComponentsInChildren<Text>();
-        hud = hudText[0];
+        //Text[] hudText = GetComponentsInChildren<Text>();
+        //hud = hudText[0];
 
         audioSource = GetComponent<AudioSource>();
 
@@ -70,12 +70,15 @@ public class CameraSettings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!PhotoCapture.camEnabled)
+        if (!PhotoCapture.instance.camEnabled)
         {
             //Camera.main.fieldOfView = startingFov;
             Camera.main.fieldOfView = PauseSystem.pauseSystem.FOV;
+            SC_FPSController.PlayerController.lookSpeed = PauseSystem.pauseSystem.mouseSensitivity;
             return;
         }
+
+        SC_FPSController.PlayerController.lookSpeed = PauseSystem.pauseSystem.mouseSensitivity / (1 + zoom * 3);
 
         if (PauseSystem.paused) return;
 
@@ -139,7 +142,8 @@ public class CameraSettings : MonoBehaviour
         string text = "1/" + s + "\nF" + f;
         if (ViewModelCamera.HasFlash) text += "\nFLASH";
 
-        hud.text = text;
+        PhotoCapture.instance.hudSettings.text = text;
+        //hud.text = text;
     }
 
     int FindClosest(float n, float[] l)

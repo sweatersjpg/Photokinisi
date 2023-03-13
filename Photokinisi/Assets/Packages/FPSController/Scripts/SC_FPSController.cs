@@ -1,165 +1,1 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[RequireComponent(typeof(CharacterController))]
-
-public class SC_FPSController : MonoBehaviour
-{
-    public static SC_FPSController PlayerController;
-
-    public float walkingSpeed = 7.5f;
-    public float runningSpeed = 11.5f;
-    public float crouchSpeed = 5;
-    public float crouchHeight = 1;
-    public float jumpSpeed = 8.0f;
-    public float gravity = 20.0f;
-    public Camera playerCamera;
-    public float lookSpeed = 2.0f;
-    public float lookXLimit = 45.0f;
-
-    [HideInInspector] public CharacterController characterController;
-    Vector3 moveDirection = Vector3.zero;
-    float rotationX = 0;
-
-    public Vector2 MouseLook;
-
-    [HideInInspector]
-    public bool canMove = true;
-
-    [HideInInspector]
-    public bool crouching = false;
-
-    Vector3 cameraStartingPosition;
-    Vector3 cameraTargetPosition;
-    float runSpeedBackup;
-
-    [HideInInspector] public Vector3 teleport;
-    [HideInInspector] public bool canTeleport = false;
-
-    private void Awake()
-    {
-        if (PlayerController == null)
-        {
-            PlayerController = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            //PlayerController.transform.position = transform.position;
-            PlayerController.teleport = transform.position;
-            PlayerController.canTeleport = true;
-
-            Destroy(gameObject);
-        }
-    }
-
-    void Start()
-    {
-        characterController = GetComponent<CharacterController>();
-        runSpeedBackup = runningSpeed;
-
-        cameraStartingPosition = playerCamera.transform.localPosition;
-        cameraTargetPosition = cameraStartingPosition;
-
-        // Lock cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Escape)) Cursor.visible = true;
-        //if (Input.GetMouseButtonDown(0)) Cursor.visible = false;
-        if (PauseSystem.paused) return;
-
-        lookSpeed = PauseSystem.pauseSystem.mouseSensitivity;
-
-        CharacterMovement();
-    }
-
-    private void LateUpdate()
-    {
-        if (canTeleport)
-        {
-            //Debug.Log("Teleporting Player :)");
-
-            canTeleport = false;
-
-            // Debug.Log(transform.position);
-            characterController.enabled = false;
-            transform.position = teleport;
-            characterController.enabled = true;
-            // Debug.Log(transform.position);
-            //PhotoCapture.instance.SendMessage("ShutterSound");
-        }
-    }
-
-    private void CharacterMovement()
-    {
-        // We are grounded, so recalculate move direction based on axes
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
-
-        // Press Left Shift to run
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        float curSpeedX = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
-        {
-            moveDirection.y = jumpSpeed;
-        }
-        else
-        {
-            moveDirection.y = movementDirectionY;
-        }
-
-        // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
-        // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
-        // as an acceleration (ms^-2)
-        if (!characterController.isGrounded)
-        {
-            moveDirection.y -= gravity * Time.deltaTime;
-        }
-
-        // Move the controller
-        characterController.Move(moveDirection * Time.deltaTime);
-
-        // Player and Camera rotation
-        //if (!Cursor.visible)
-        //{
-            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        //}
-
-        MouseLook = new Vector2(rotationX, Input.GetAxis("Mouse X") * lookSpeed);
-
-        playerCamera.transform.localPosition += (cameraTargetPosition - playerCamera.transform.localPosition) / 4 * Time.deltaTime * 50;
-    }
-
-    void EngageCrouch()
-    {
-        runningSpeed = crouchSpeed;
-        crouching = true;
-
-        cameraTargetPosition = new Vector3(0, crouchHeight, 0);
-    }
-
-    void DisengageCrouch()
-    {
-        runningSpeed = runSpeedBackup;
-        crouching = false;
-
-        cameraTargetPosition = cameraStartingPosition;
-    }
-
-    //private void OnApplicationFocus(bool focus)
-    //{
-    //    Cursor.visible = false;
-    //}
-}
+﻿using System.Collections;using System.Collections.Generic;using UnityEngine;[RequireComponent(typeof(CharacterController))]public class SC_FPSController : MonoBehaviour{    public static SC_FPSController PlayerController;    public float walkingSpeed = 7.5f;    public float runningSpeed = 11.5f;    public float crouchSpeed = 5;    public float crouchHeight = 1;    public float jumpSpeed = 8.0f;    public float gravity = 20.0f;    public Camera playerCamera;    public float lookSpeed = 2.0f;    public float lookXLimit = 45.0f;    [HideInInspector] public CharacterController characterController;    Vector3 moveDirection = Vector3.zero;    float rotationX = 0;    public Vector2 MouseLook;    [HideInInspector]    public bool canMove = true;    [HideInInspector]    public bool crouching = false;    Vector3 cameraStartingPosition;    Vector3 cameraTargetPosition;    float runSpeedBackup;    [HideInInspector] public Vector3 teleport;    [HideInInspector] public bool canTeleport = false;    private void Awake()    {        if (PlayerController == null)        {            PlayerController = this;            DontDestroyOnLoad(gameObject);        }        else        {            //PlayerController.transform.position = transform.position;            PlayerController.teleport = transform.position;            PlayerController.canTeleport = true;            Destroy(gameObject);        }    }    void Start()    {        characterController = GetComponent<CharacterController>();        runSpeedBackup = runningSpeed;        cameraStartingPosition = playerCamera.transform.localPosition;        cameraTargetPosition = cameraStartingPosition;        // Lock cursor        Cursor.lockState = CursorLockMode.Locked;        Cursor.visible = false;    }    void Update()    {        //if (Input.GetKeyDown(KeyCode.Escape)) Cursor.visible = true;        //if (Input.GetMouseButtonDown(0)) Cursor.visible = false;        if (PauseSystem.paused) return;        // lookSpeed = PauseSystem.pauseSystem.mouseSensitivity;        CharacterMovement();    }    private void LateUpdate()    {        if (canTeleport)        {            //Debug.Log("Teleporting Player :)");            canTeleport = false;            // Debug.Log(transform.position);            characterController.enabled = false;            transform.position = teleport;            characterController.enabled = true;            // Debug.Log(transform.position);            //PhotoCapture.instance.SendMessage("ShutterSound");        }    }    private void CharacterMovement()    {        // We are grounded, so recalculate move direction based on axes        Vector3 forward = transform.TransformDirection(Vector3.forward);        Vector3 right = transform.TransformDirection(Vector3.right);        // Press Left Shift to run        bool isRunning = Input.GetKey(KeyCode.LeftShift);        float curSpeedX = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Vertical") : 0;        float curSpeedY = canMove ? (isRunning ? runningSpeed : walkingSpeed) * Input.GetAxis("Horizontal") : 0;        float movementDirectionY = moveDirection.y;        moveDirection = (forward * curSpeedX) + (right * curSpeedY);        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)        {            moveDirection.y = jumpSpeed;        }        else        {            moveDirection.y = movementDirectionY;        }        // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below        // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied        // as an acceleration (ms^-2)        if (!characterController.isGrounded)        {            moveDirection.y -= gravity * Time.deltaTime;        }        // Move the controller        characterController.Move(moveDirection * Time.deltaTime);        // Player and Camera rotation        //if (!Cursor.visible)        //{            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);        //}        MouseLook = new Vector2(rotationX, Input.GetAxis("Mouse X") * lookSpeed);        playerCamera.transform.localPosition += (cameraTargetPosition - playerCamera.transform.localPosition) / 4 * Time.deltaTime * 50;    }    void EngageCrouch()    {        runningSpeed = crouchSpeed;        crouching = true;        cameraTargetPosition = new Vector3(0, crouchHeight, 0);    }    void DisengageCrouch()    {        runningSpeed = runSpeedBackup;        crouching = false;        cameraTargetPosition = cameraStartingPosition;    }    //private void OnApplicationFocus(bool focus)    //{    //    Cursor.visible = false;    //}}

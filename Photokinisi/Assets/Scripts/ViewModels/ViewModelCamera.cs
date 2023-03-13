@@ -76,7 +76,7 @@ public class ViewModelCamera : MonoBehaviour
     {
         if (SwapingFlash == null)
         {
-            if (PhotoCapture.camEnabled)
+            if (PhotoCapture.instance.camEnabled)
             {
                 Invoke("AnotherFunctionAbstractionJustForTimingButThisTimeForFlash", 0.5f);
                 PhotoCapture.instance.SendMessage("ToggleCamera");

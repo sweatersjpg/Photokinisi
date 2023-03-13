@@ -33,9 +33,9 @@ RectTransform:
   m_Father: {fileID: 5473125375919679865}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -37.88, y: -20.4}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 2.119999, y: -20.4}
   m_SizeDelta: {x: 10, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1951520635
@@ -441,6 +441,8 @@ MonoBehaviour:
   shutter: {fileID: 5473125376473974648}
   shutterSFX: {fileID: 8300000, guid: fb21997afa3504c3ead55a163100cd91, type: 3}
   advFilm: {fileID: 8300000, guid: 7a88db0fde20e4ce2a924125143af65b, type: 3}
+  flashOn: {fileID: 0}
+  flashOff: {fileID: 0}
   photoCount: 10
   resolution: {x: 1500, y: 1000}
   changeSceneOnPhotoCapture: 0
@@ -479,6 +481,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   fadeDuration: 0.5
   fadeTargetColor: {r: 0, g: 0, b: 0, a: 1}
+  hudSettings: {fileID: 0}
+  hudCount: {fileID: 0}
   galleryBuildIndex: 1
 --- !u!114 &5473125377557666126
 MonoBehaviour:
@@ -652,9 +656,9 @@ RectTransform:
   m_Father: {fileID: 5473125375919679865}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -37.88, y: 14.84}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 2.119999, y: 14.84}
   m_SizeDelta: {x: 10, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5898736516478235441

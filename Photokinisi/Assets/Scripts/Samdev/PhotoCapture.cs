@@ -11,7 +11,7 @@ public class PhotoCapture : MonoBehaviour
 
     [HideInInspector] public static PhotoCapture instance;
     [HideInInspector] public static Texture2D[] photos;
-    public static bool camEnabled = false;
+    public bool camEnabled = false;
 
     GameObject player;
 
@@ -51,8 +51,9 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField] float fadeDuration;
     [SerializeField] Color fadeTargetColor;
 
-    Text hudSettings;
-    Text hudCount;
+    [Space]
+    public Text hudSettings;
+    public Text hudCount;
 
     Color fadeStartingColor;
     float fadeTimer = 0;
@@ -108,10 +109,10 @@ public class PhotoCapture : MonoBehaviour
 
         camVolume = GetComponent<Volume>();
 
-        Text[] hudText = GetComponentsInChildren<Text>();
+        // Text[] hudText = GetComponentsInChildren<Text>();
 
-        hudSettings = hudText[0];
-        hudCount = hudText[1];
+        // hudSettings = hudText[0];
+        // hudCount = hudText[1];
         hudCount.text = photoCount+"";
 
         hudCount.gameObject.SetActive(false);
@@ -226,7 +227,7 @@ public class PhotoCapture : MonoBehaviour
     {
         if (PauseSystem.paused) return;
 
-        if (Input.GetMouseButtonDown(0)) CapturePhoto();
+        if (Input.GetMouseButtonDown(0) && !sceneIsLoading) CapturePhoto();
 
         if (Input.GetMouseButtonDown(1))
         {

@@ -14,6 +14,7 @@ public class PauseSystem : MonoBehaviour
 
     public GameObject pausePanel;
     public GameObject settingsPanel;
+    public GameObject controlsText;
 
     [Space]
     public AudioMixer masterMixer;
@@ -136,6 +137,11 @@ public class PauseSystem : MonoBehaviour
     {
         settingsPanel.SetActive(state);
         pausePanel.SetActive(!state);
+    }
+
+    public void ToggleControls()
+    {
+        controlsText.SetActive(!controlsText.activeSelf);
     }
 
     // ---- settings ----

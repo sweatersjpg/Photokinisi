@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 2.119999, y: -20.4}
+  m_AnchoredPosition: {x: 2.119995, y: 10.84}
   m_SizeDelta: {x: 10, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1951520635
@@ -434,6 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4796c41f99c944fe889084d28b0cd8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camEnabled: 0
   cameraModel: {fileID: 0}
   viewFinder: {fileID: 0}
   flashLight: {fileID: 0}
@@ -658,7 +659,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 2.119999, y: 14.84}
+  m_AnchoredPosition: {x: 2.119995, y: 14.84}
   m_SizeDelta: {x: 10, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5898736516478235441

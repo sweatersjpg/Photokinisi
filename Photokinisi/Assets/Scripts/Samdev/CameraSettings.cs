@@ -140,7 +140,7 @@ public class CameraSettings : MonoBehaviour
         float s = sspeeds[FindClosest(shutterSpeed, sspeeds)];
 
         string text = "1/" + s + "\nF" + f;
-        if (ViewModelCamera.HasFlash) text += "\nFLASH";
+        if (ViewModelCamera.HasFlash) text += "\n\nFLASH";
 
         PhotoCapture.instance.hudSettings.text = text;
         //hud.text = text;

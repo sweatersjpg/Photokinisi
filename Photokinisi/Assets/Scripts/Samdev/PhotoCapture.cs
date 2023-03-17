@@ -58,7 +58,7 @@ public class PhotoCapture : MonoBehaviour
     Color fadeStartingColor;
     float fadeTimer = 0;
     bool camviewOn = false;
-    bool canTakePhoto = true;
+    bool canTakePhoto = false;
 
     int photoIndex = 0;
 
@@ -155,8 +155,9 @@ public class PhotoCapture : MonoBehaviour
         //AudioSource.PlayClipAtPoint(shutterSFX, mCamera.transform.position);
 
         Invoke("ToggleCamera", 0.4f);
-        Invoke("AdvanceFilm", 1f);
-        Invoke("AdvanceFilmSound", 1.1f);
+
+        //Invoke("AdvanceFilm", 1f);
+        //Invoke("AdvanceFilmSound", 1.1f);
 
         if (changeSceneOnPhotoCapture) PrepareNextScene(false);
 
@@ -184,7 +185,12 @@ public class PhotoCapture : MonoBehaviour
         {
             lastScene = i;
             //Debug.Log("Starting Coroutine");
-            Invoke("StartAsyncLoad", 2f);
+            Invoke("StartAsyncLoad", 1f);
+        } else
+        {
+            Invoke("AdvanceFilm", 1.1f);
+            Invoke("AdvanceFilmSound", 1.2f);
+            Invoke("SetAbilityToRetake", 1.5f);
         }
     }
 
@@ -202,7 +208,15 @@ public class PhotoCapture : MonoBehaviour
         {
             if (asyncLoad.progress >= 0.9f)
             {
-                //if (!nextSceneReady) Debug.Log("Scene ready :)");
+                if (!nextSceneReady)
+                {
+                    Debug.Log("Scene ready :)");
+
+                    Invoke("AdvanceFilm", 0.1f);
+                    Invoke("AdvanceFilmSound", 0.2f);
+                    Invoke("SetAbilityToRetake", 0.5f);
+
+                }
 
                 nextSceneReady = true;
                 sceneIsLoading = false;
@@ -276,7 +290,7 @@ public class PhotoCapture : MonoBehaviour
         {
             SetFadeTimer();
             Invoke("DisableCamview", fadeDuration / 2);
-            Invoke("SetAbilityToRetake", 1);
+            // Invoke("SetAbilityToRetake", 1);
         }
         else
         {
